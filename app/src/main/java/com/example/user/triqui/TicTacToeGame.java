@@ -13,6 +13,9 @@ public class TicTacToeGame {
     public static final char COMPUTER_PLAYER = 'O';
     public static final char OPEN_SPOT = ' ';
 
+    public enum DifficultyLevel{Easy,Harder,Expert};
+
+    private DifficultyLevel mDifficultyLevel = DifficultyLevel.Expert;
 
     private Random mRand;
 
@@ -21,6 +24,55 @@ public class TicTacToeGame {
         // Seed the random number generator
         mRand = new Random();
 
+    }
+
+    public DifficultyLevel getDifficultyLevel() {
+        return mDifficultyLevel;
+    }
+
+    public void setDifficultyLevel(DifficultyLevel difficultyLevel){
+        mDifficultyLevel =  difficultyLevel;
+    }
+
+    public int getRandomMove(){
+        // Generate random move
+        int move;
+        do
+        {
+            move = mRand.nextInt(BOARD_SIZE);
+        } while (mBoard[move] == HUMAN_PLAYER || mBoard[move] == COMPUTER_PLAYER);
+        return move;
+    }
+
+    public int getWinningMove(){
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            if (mBoard[i] != HUMAN_PLAYER && mBoard[i] != COMPUTER_PLAYER) {
+                char curr = mBoard[i];
+                mBoard[i] = COMPUTER_PLAYER;
+                if (checkForWinner() == 3) {
+                    return i;
+                }
+                else
+                    mBoard[i] = curr;
+            }
+        }
+        return -1;
+    }
+
+    public int getBlockingMove() {
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            if (mBoard[i] != HUMAN_PLAYER && mBoard[i] != COMPUTER_PLAYER) {
+                char curr = mBoard[i];   // Save the current number
+                mBoard[i] = HUMAN_PLAYER;
+                if (checkForWinner() == 2) {
+                    mBoard[i] = COMPUTER_PLAYER;
+                    return i;
+                }
+                else
+                    mBoard[i] = curr;
+            }
+        }
+        return -1;
     }
 
     /**
@@ -51,40 +103,24 @@ public class TicTacToeGame {
      * @return the best move for the computer to make (0-8)
      */
     public int getComputerMove(){
-        int move;
+        int move = -1;
 
-        // First see if there's a move O can make to win
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            if (mBoard[i] != HUMAN_PLAYER && mBoard[i] != COMPUTER_PLAYER) {
-                char curr = mBoard[i];
-                mBoard[i] = COMPUTER_PLAYER;
-                if (checkForWinner() == 3) {
-                    return i;
-                }
-                else
-                    mBoard[i] = curr;
+        if( mDifficultyLevel == DifficultyLevel.Easy){
+            move = getRandomMove();
+        } else if ( mDifficultyLevel == DifficultyLevel.Harder){
+            move = getWinningMove();
+            if(move ==-1 ) {
+                move = getRandomMove();
+            }
+        } else if (mDifficultyLevel == DifficultyLevel.Expert){
+            move = getWinningMove();
+            if(move == -1) {
+                move = getBlockingMove();
+            }
+            if (move == -1){
+                move = getRandomMove();
             }
         }
-
-        // See if there's a move O can make to block X from winning
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            if (mBoard[i] != HUMAN_PLAYER && mBoard[i] != COMPUTER_PLAYER) {
-                char curr = mBoard[i];   // Save the current number
-                mBoard[i] = HUMAN_PLAYER;
-                if (checkForWinner() == 2) {
-                    mBoard[i] = COMPUTER_PLAYER;
-                    return i;
-                }
-                else
-                    mBoard[i] = curr;
-            }
-        }
-
-        // Generate random move
-        do
-        {
-            move = mRand.nextInt(BOARD_SIZE);
-        } while (mBoard[move] == HUMAN_PLAYER || mBoard[move] == COMPUTER_PLAYER);
 
 
         mBoard[move] = COMPUTER_PLAYER;
