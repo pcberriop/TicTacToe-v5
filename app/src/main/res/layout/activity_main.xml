@@ -5,87 +5,94 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <TableLayout
-        android:id="@+id/play_grid"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp">
+    <com.example.user.triqui.BoardView
+        android:id="@+id/board"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="5dp"/>
 
-        <TableRow android:gravity="center_horizontal">
 
-            <Button
-                android:id="@+id/one"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:text="1"
-                android:textSize="70dp" />
+    <!--<TableLayout-->
+        <!--android:id="@+id/play_grid"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="5dp">-->
 
-            <Button
-                android:id="@+id/two"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:text="2"
-                android:textSize="70dp" />
+        <!--<TableRow android:gravity="center_horizontal">-->
 
-            <Button
-                android:id="@+id/three"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:text="3"
-                android:textSize="70dp" />
+            <!--<Button-->
+                <!--android:id="@+id/one"-->
+                <!--android:layout_width="100dp"-->
+                <!--android:layout_height="100dp"-->
+                <!--android:text="1"-->
+                <!--android:textSize="70dp" />-->
 
-        </TableRow>
+            <!--<Button-->
+                <!--android:id="@+id/two"-->
+                <!--android:layout_width="100dp"-->
+                <!--android:layout_height="100dp"-->
+                <!--android:text="2"-->
+                <!--android:textSize="70dp" />-->
 
-        <TableRow android:gravity="center_horizontal">
+            <!--<Button-->
+                <!--android:id="@+id/three"-->
+                <!--android:layout_width="100dp"-->
+                <!--android:layout_height="100dp"-->
+                <!--android:text="3"-->
+                <!--android:textSize="70dp" />-->
 
-            <Button
-                android:id="@+id/four"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:text="4"
-                android:textSize="70dp" />
+        <!--</TableRow>-->
 
-            <Button
-                android:id="@+id/five"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:text="5"
-                android:textSize="70dp" />
+        <!--<TableRow android:gravity="center_horizontal">-->
 
-            <Button
-                android:id="@+id/six"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:text="6"
-                android:textSize="70dp" />
+            <!--<Button-->
+                <!--android:id="@+id/four"-->
+                <!--android:layout_width="100dp"-->
+                <!--android:layout_height="100dp"-->
+                <!--android:text="4"-->
+                <!--android:textSize="70dp" />-->
 
-        </TableRow>
+            <!--<Button-->
+                <!--android:id="@+id/five"-->
+                <!--android:layout_width="100dp"-->
+                <!--android:layout_height="100dp"-->
+                <!--android:text="5"-->
+                <!--android:textSize="70dp" />-->
 
-        <TableRow android:gravity="center_horizontal">
+            <!--<Button-->
+                <!--android:id="@+id/six"-->
+                <!--android:layout_width="100dp"-->
+                <!--android:layout_height="100dp"-->
+                <!--android:text="6"-->
+                <!--android:textSize="70dp" />-->
 
-            <Button
-                android:id="@+id/seven"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:text="7"
-                android:textSize="70dp" />
+        <!--</TableRow>-->
 
-            <Button
-                android:id="@+id/eight"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:text="8"
-                android:textSize="70dp" />
+        <!--<TableRow android:gravity="center_horizontal">-->
 
-            <Button
-                android:id="@+id/nine"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:text="9"
-                android:textSize="70dp" />
+            <!--<Button-->
+                <!--android:id="@+id/seven"-->
+                <!--android:layout_width="100dp"-->
+                <!--android:layout_height="100dp"-->
+                <!--android:text="7"-->
+                <!--android:textSize="70dp" />-->
 
-        </TableRow>
-    </TableLayout>
+            <!--<Button-->
+                <!--android:id="@+id/eight"-->
+                <!--android:layout_width="100dp"-->
+                <!--android:layout_height="100dp"-->
+                <!--android:text="8"-->
+                <!--android:textSize="70dp" />-->
+
+            <!--<Button-->
+                <!--android:id="@+id/nine"-->
+                <!--android:layout_width="100dp"-->
+                <!--android:layout_height="100dp"-->
+                <!--android:text="9"-->
+                <!--android:textSize="70dp" />-->
+
+        <!--</TableRow>-->
+    <!--</TableLayout>-->
 
     <RelativeLayout
         android:layout_width="fill_parent"

@@ -1,8 +1,13 @@
 package com.example.user.triqui;
 
-import java.util.InputMismatchException;
+/* TicTacToeConsole.java
+ * By Frank McCown (Harding University)
+ *
+ * This is a tic-tac-toe game that runs in the console window.  The human
+ * is X and the computer is O.
+ */
+
 import java.util.Random;
-import java.util.Scanner;
 
 public class TicTacToeGame {
 
@@ -91,10 +96,12 @@ public class TicTacToeGame {
      * @param player - the HUMAN_PLAYER or COMPUTER_PLAYER
      * @param location - the location (0-8) to place the move
      */
-    public void setMove(char player, int location){
-        if(location <=8 && location >= 0){
+    public boolean setMove(char player, int location){
+        if(location <=8 && location >= 0 && mBoard[location]==OPEN_SPOT){
             mBoard[location]=player;
+            return true;
         }
+        return false;
     }
 
     /**
@@ -181,6 +188,14 @@ public class TicTacToeGame {
 
         // If we make it through the previous loop, all places are taken, so it's a tie
         return 1;
+    }
+
+    public char getBoardOccupant(int i){
+        if(mBoard[i] == HUMAN_PLAYER)
+            return HUMAN_PLAYER;
+        else if(mBoard[i] == COMPUTER_PLAYER)
+            return COMPUTER_PLAYER;
+        else return 0;
     }
 
     private void displayBoard()	{
