@@ -3,13 +3,15 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:gravity="center_horizontal"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
     <com.example.user.triqui.BoardView
         android:id="@+id/board"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_marginTop="5dp"/>
+        android:layout_width="270dp"
+        android:layout_height="270dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        />
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -29,9 +31,8 @@
             android:id="@+id/human"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
             android:layout_below="@+id/information"
-            android:layout_marginStart="50dp"
+            android:layout_centerHorizontal="true"
             android:paddingLeft="10dp"
             android:paddingRight="16dp"
             android:text="Human : 0" />
@@ -40,19 +41,17 @@
             android:id="@+id/tie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/information"
-            android:layout_marginEnd="138dp"
+            android:layout_below="@+id/human"
+            android:layout_centerHorizontal="true"
             android:paddingRight="16dp"
             android:text="Ties : 0" />
 
         <TextView
             android:id="@+id/android"
-            android:layout_width="75dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/information"
-            android:layout_marginEnd="50dp"
+            android:layout_below="@+id/tie"
+            android:layout_centerHorizontal="true"
             android:text="Android : 0" />
     </RelativeLayout>
 

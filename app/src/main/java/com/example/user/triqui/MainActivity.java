@@ -4,7 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -39,9 +39,6 @@ public class MainActivity extends AppCompatActivity {
     //game over
     private boolean mGameOver;
 
-    //buttons making the board
-    private Button mBoardButtons[];
-
     //various text displayed
     private TextView mInfoTextView;
 
@@ -54,7 +51,9 @@ public class MainActivity extends AppCompatActivity {
     private MediaPlayer mHumanMediaPlayer;
     private MediaPlayer mComputereMediaPlayer;
 
+    private int mDifficulty;
 
+    private SharedPreferences mPrefs;
 
     @Override
     protected void onResume(){
@@ -76,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         mInfoTextView = (TextView) findViewById(R.id.information);
 
         mNumberHuman = (TextView) findViewById(R.id.human);
@@ -84,14 +84,62 @@ public class MainActivity extends AppCompatActivity {
 
         mGame = new TicTacToeGame();
         mBoardView = (BoardView) findViewById(R.id.board);
-        mBoardView.setGame(mGame);
         mBoardView.setOnTouchListener(mTouchListener);
 
-        mAndroidWins = 0;
-        mHumanWins=0;
-        mTie=0;
+        mPrefs = getSharedPreferences("ttt_prefs",MODE_PRIVATE);
+
+        mHumanWins = mPrefs.getInt("mHumanWins",0);
+        mAndroidWins = mPrefs.getInt("mComputerWins",0);
+        mTie = mPrefs.getInt("mTies",0);
+        mDifficulty = mPrefs.getInt("mDifficulty",2); //expert par défaut
+
+        if(mDifficulty==0)
+            mGame.setDifficultyLevel(TicTacToeGame.DifficultyLevel.Easy);
+        else if(mDifficulty==1)
+            mGame.setDifficultyLevel(TicTacToeGame.DifficultyLevel.Harder);
+        else if(mDifficulty==2)
+            mGame.setDifficultyLevel(TicTacToeGame.DifficultyLevel.Expert);
+        mBoardView.setGame(mGame);
+
+
         mhumanFirst = false;
         startNewGame();
+
+        displayScores();
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+
+        SharedPreferences.Editor ed = mPrefs.edit();
+        ed.putInt("mHumanWins",mHumanWins);
+        ed.putInt("mComputerWins", mAndroidWins);
+        ed.putInt("mTies",mTie);
+        ed.putInt("mDifficulty",mDifficulty);
+        ed.commit();
+    }
+
+    private void displayScores(){
+        mNumberAndroid.setText("Android : "+Integer.toString(mAndroidWins));
+        mNumberHuman.setText("Human : "+Integer.toString(mHumanWins));
+        mNumberTie.setText("Ties : "+Integer.toString(mTie));
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState){
+        super.onRestoreInstanceState(savedInstanceState);
+
+        mGame.setBoardState(savedInstanceState.getCharArray("board"));
+        mGameOver = savedInstanceState.getBoolean("mGameOver");
+        mInfoTextView.setText(savedInstanceState.getCharSequence("info"));
+        mHumanWins=savedInstanceState.getInt("mHumanWins");
+        mAndroidWins=savedInstanceState.getInt("mComputerWins");
+        mTie=savedInstanceState.getInt("mTies");
+        mhumanFirst = savedInstanceState.getBoolean("mGoFirst");
+
+        displayScores();
+
     }
 
     private void startNewGame(){
@@ -99,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
         mBoardView.invalidate();
 
         mhumanFirst=!mhumanFirst;
+
         mGameOver=false;
 
         //human goes first
@@ -111,6 +160,8 @@ public class MainActivity extends AppCompatActivity {
             mInfoTextView.setText(R.string.turn_human);
         }
     }
+
+
     private boolean setMove(char player,int location){
         if(mGame.setMove(player, location)){
             if(player == TicTacToeGame.HUMAN_PLAYER)
@@ -141,11 +192,21 @@ public class MainActivity extends AppCompatActivity {
             case R.id.ai_difficulty:
                 showDialog(DIALOG_DIFFICULTY_ID);
                 return true;
+            case R.id.about:
+                showDialog(DIAlOG_ABOUT_ID);
             case R.id.quit:
                 showDialog(DIALOG_QUIT_ID);
                 return true;
-            case R.id.about:
-                showDialog(DIAlOG_ABOUT_ID);
+            case R.id.reset:
+                SharedPreferences.Editor ed = mPrefs.edit();
+                ed.putInt("mHumanWins",0);
+                ed.putInt("mComputerWins", 0);
+                ed.putInt("mTies",0);
+                ed.commit();
+                mHumanWins = mPrefs.getInt("mHumanWins",0);
+                mAndroidWins = mPrefs.getInt("mComputerWins",0);
+                mTie = mPrefs.getInt("mTies",0);
+                displayScores();
         }
         return false;
     }
@@ -194,10 +255,13 @@ public class MainActivity extends AppCompatActivity {
 
                         if(item == 0){
                             mGame.setDifficultyLevel(TicTacToeGame.DifficultyLevel.Easy);
+                            mDifficulty=0;
                         } else if ( item == 1){
                             mGame.setDifficultyLevel(TicTacToeGame.DifficultyLevel.Harder);
+                            mDifficulty=1;
                         } else if ( item == 2){
                             mGame.setDifficultyLevel(TicTacToeGame.DifficultyLevel.Expert);
+                            mDifficulty=2;
                         }
 
                         Toast.makeText(getApplicationContext(), levels[item],
@@ -263,5 +327,18 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     };
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
+
+        outState.putCharArray("board",mGame.getBoardState());
+        outState.putBoolean("mGameOver",mGameOver);
+        outState.putInt("mHumanWins", Integer.valueOf(mHumanWins));
+        outState.putInt("mComputerWins", Integer.valueOf(mAndroidWins));
+        outState.putInt("mTies", Integer.valueOf(mTie));
+        outState.putCharSequence("info",mInfoTextView.getText());
+        outState.putBoolean("mGoFirst", mhumanFirst);
+    }
 
 }

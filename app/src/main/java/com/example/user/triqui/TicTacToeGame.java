@@ -1,5 +1,6 @@
 package com.example.user.triqui;
 
+
 /* TicTacToeConsole.java
  * By Frank McCown (Harding University)
  *
@@ -206,5 +207,13 @@ public class TicTacToeGame {
         System.out.println("-----------");
         System.out.println(mBoard[6] + " | " + mBoard[7] + " | " + mBoard[8]);
         System.out.println();
+    }
+
+    public char[] getBoardState(){
+        return mBoard;
+    }
+
+    public void setBoardState(char[] board){
+        mBoard = board.clone();
     }
 }
