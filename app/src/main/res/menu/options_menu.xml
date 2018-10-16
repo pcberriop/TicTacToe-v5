@@ -3,8 +3,8 @@
         android:id="@+id/new_game"
         android:title="New Game" />
     <item
-        android:id="@+id/ai_difficulty"
-        android:title="Difficulty" />
+        android:id="@+id/preferences"
+        android:title="Preferences" />
     <item
         android:id="@+id/about"
         android:title="About" />
